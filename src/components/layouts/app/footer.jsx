@@ -4,7 +4,7 @@ const Footer = ({ className }) => {
   return (
     <footer
       className={cn(
-        'mt-auto w-full h-14 flex flex-row gap-4 justify-between items-center',
+        'container mt-auto w-full flex flex-row gap-4 justify-between items-center py-4',
         className
       )}
     >
