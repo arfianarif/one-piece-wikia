@@ -74,7 +74,7 @@ const CharacterPage = () => {
           </div>
         </div>
         <div className='flex flex-col gap-4'>
-          <h3 className='text-lg font-semibold'>Anime</h3>
+          <h3 className='my-6 text-lg font-semibold'>Anime</h3>
           <div className='flex flex-col gap-4 '>
             {data?.anime?.map((item, i) => {
               return (
@@ -105,7 +105,7 @@ const CharacterPage = () => {
           </div>
         </div>
         <div className='flex flex-col gap-4'>
-          <h3 className='text-lg font-semibold'>Manga</h3>
+          <h3 className='my-6 text-lg font-semibold'>Manga</h3>
           <div className='flex flex-col gap-4 '>
             {data?.manga?.map((item, i) => {
               return (

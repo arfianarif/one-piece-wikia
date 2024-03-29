@@ -1,13 +1,99 @@
+import jikanServices from '@/services/jikan'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
+import useApp from './useApp'
 
 const useJikan = create(
   persist(
     (set, get) => ({
-      data: {
-        characters: [],
-      },
+      data: undefined,
       setData: (value) => set({ data: value }),
+      characters: {
+        data: [],
+        isLoading: false,
+        error: '',
+      },
+      fetchCharacters: async () => {
+        try {
+          const id = get().data?.id
+          set((state) => {
+            return {
+              characters: {
+                ...state.characters,
+                isLoading: true,
+                error: '',
+              },
+            }
+          })
+          const response = await jikanServices.getData({
+            url: `/anime/${id}/characters`,
+          })
+          set((state) => {
+            return {
+              characters: {
+                ...state.characters,
+                isLoading: false,
+                data: response?.data,
+                error: '',
+              },
+            }
+          })
+        } catch (error) {
+          console.error('Error fetching data:', error.message)
+          set((state) => {
+            return {
+              characters: {
+                ...state.characters,
+                isLoading: false,
+                error: 'Error fetching data:' + error.message,
+              },
+            }
+          })
+        }
+      },
+      news: {
+        data: [],
+        isLoading: false,
+        error: '',
+      },
+      fetchNews: async () => {
+        try {
+          const id = get().data?.id
+          set((state) => {
+            return {
+              news: {
+                ...state.news,
+                isLoading: true,
+                error: '',
+              },
+            }
+          })
+          const response = await jikanServices.getData({
+            url: `/anime/${id}/news`,
+          })
+          set((state) => {
+            return {
+              news: {
+                ...state.news,
+                isLoading: false,
+                data: response?.data,
+                error: '',
+              },
+            }
+          })
+        } catch (error) {
+          console.error('Error fetching data:', error.message)
+          set((state) => {
+            return {
+              news: {
+                ...state.news,
+                isLoading: false,
+                error: 'Error fetching data:' + error.message,
+              },
+            }
+          })
+        }
+      },
     }),
     {
       name: 'jikan', // name of the item in the storage (must be unique)

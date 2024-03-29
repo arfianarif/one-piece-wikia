@@ -1,6 +1,7 @@
 import { API_JIKAN } from '@/config/app'
 import { buildUrlWithQueryParams } from '@/lib/utils'
 import useApp from '@/store/useApp'
+import useJikan from '@/store/useJikan'
 import {
   createContext,
   useCallback,
@@ -13,7 +14,7 @@ import {
 const AppContext = createContext()
 
 export const AppProvider = ({ children }) => {
-  const { app, setApp } = useApp()
+  const { data, setData } = useJikan()
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
 
@@ -26,13 +27,13 @@ export const AppProvider = ({ children }) => {
           id: mal_id,
           ...rest,
         }
-        return setApp(newData)
+        return setData(newData)
       }
       setError('error when building app')
-      setApp(undefined)
+      setData(undefined)
       return
     },
-    [app] // Depend on app to avoid recreating the function on each render
+    [data] // Depend on app to avoid recreating the function on each render
   )
 
   const fetchData = async ({ url, queryOptions = {}, options = {} }) => {
@@ -54,7 +55,7 @@ export const AppProvider = ({ children }) => {
   }
 
   useEffect(() => {
-    if (!app && !isLoading)
+    if (!data && !isLoading)
       fetchData({
         url: API_JIKAN + '/anime',
         queryOptions: {
@@ -62,7 +63,7 @@ export const AppProvider = ({ children }) => {
           type: 'tv',
         },
       })
-  }, [app])
+  }, [data])
 
   const value = useMemo(() => {
     return { isLoading, error }
