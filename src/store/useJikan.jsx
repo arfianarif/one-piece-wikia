@@ -58,7 +58,9 @@ const useJikan = create(
       },
       fetchNews: async () => {
         try {
+          console.log('Fetching news,..')
           const id = get().data?.id
+          console.log({ id })
           set((state) => {
             return {
               news: {
@@ -87,6 +89,51 @@ const useJikan = create(
             return {
               news: {
                 ...state.news,
+                isLoading: false,
+                error: 'Error fetching data:' + error.message,
+              },
+            }
+          })
+        }
+      },
+      pictures: {
+        data: [],
+        isLoading: false,
+        error: '',
+      },
+      fetchPictures: async () => {
+        try {
+          console.log('Fetching pictures,..')
+          const id = get().data?.id
+          console.log({ id })
+          set((state) => {
+            return {
+              pictures: {
+                ...state.pictures,
+                isLoading: true,
+                error: '',
+              },
+            }
+          })
+          const response = await jikanServices.getData({
+            url: `/anime/${id}/pictures`,
+          })
+          set((state) => {
+            return {
+              pictures: {
+                ...state.pictures,
+                isLoading: false,
+                data: response?.data,
+                error: '',
+              },
+            }
+          })
+        } catch (error) {
+          console.error('Error fetching data:', error.message)
+          set((state) => {
+            return {
+              pictures: {
+                ...state.pictures,
                 isLoading: false,
                 error: 'Error fetching data:' + error.message,
               },

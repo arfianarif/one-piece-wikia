@@ -1,3 +1,4 @@
+import OnePieceLogo from '@/assets/images/One-Piece-logo.png'
 import { cn } from '@/lib/utils'
 import { Link } from 'react-router-dom'
 import { Navigation } from './navigation'
@@ -12,8 +13,15 @@ const Header = ({ className }) => {
       )}
     >
       <div className='container flex flex-row items-center justify-between h-full gap-4 mx-auto backdrop-blur'>
-        <Link to={'/'} className='text-lg font-semibold hover:cursor-pointer'>
-          One Piece Wikia
+        <Link
+          to={'/'}
+          className='h-10 text-lg font-semibold hover:cursor-pointer'
+        >
+          <img
+            className='w-full h-full '
+            src={OnePieceLogo}
+            alt='onepiecelogo'
+          />
         </Link>
         <div
           className={cn(
